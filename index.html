@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LisTory</title>
+    <link rel="stylesheet" href="./style.css">
+    <script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+    </script>
+</head>
+<body>
+    <h1>LisTory English Listening Practice Website</h1>
+    <div>
+        <label for="storySelect">Choose Story: </label>
+        <select id="storySelect" onchange="changeStory()">
+            <option value="0">Never fight over trifles</option>
+            <option value="1">Better bent than broken</option>
+            <option value="2">A coward can't teach courage</option>
+        </select>
+        <label for="voiceSelect">Choose Voice: </label>
+        <select id="voiceSelect" onchange="changeVoice()"></select>
+    </div>
+    <div class="story-box" id="storyBox"></div>
+    <div class="progress-bar">
+        <div class="progress" id="progressBar"></div>
+    </div>
+    <div class="slider-container">
+        <label for="speedSlider">Speed: </label>
+        <input type="range" id="speedSlider" min="0.5" max="2.0" step="0.1" value="1.0" oninput="changeSpeed(this.value)">
+        <span class="slider-value" id="speedValue">1.0x</span>
+    </div>
+    <div class="slider-container">
+        <label for="volumeSlider">Volume: </label>
+        <input type="range" id="volumeSlider" min="0.0" max="1.0" step="0.1" value="1.0" oninput="changeVolume(this.value)">
+        <span class="slider-value" id="volumeValue">100%</span>
+    </div>
+    <div class="slider-container">
+        <label for="noiseLevelSlider">Noise Level: </label>
+        <input type="range" id="noiseLevelSlider" min="0.0" max="1.0" step="0.1" value="0.3" oninput="changeNoiseLevel(this.value)">
+        <span class="slider-value" id="noiseLevelValue">30%</span>
+    </div>
+    <div class="slider-container">
+        <label for="showTranslation">Show Translation: </label>
+        <input type="checkbox" id="showTranslation" checked onchange="toggleTranslation()">
+    </div>
+    <div class="controls">
+        <button onclick="playStory()">Play</button>
+        <button onclick="pauseStory()">Pause</button>
+        <button onclick="resetStory()">Reset</button>
+        <button class="noise-toggle" onclick="toggleNoise()">Enable Noise</button>
+        <label for="noiseSelect">Choose Noise: </label>
+        <select id="noiseSelect" onchange="changeNoise()">
+            <option value="coffee_shop">Coffee Shop</option>
+            <option value="traffic">Traffic</option>
+            <option value="ambient">Environment</option>
+            <option value="office">Office</option>
+            <option value="white-noise">White Noise</option>
+        </select>
+        <label for="effectSelect">Choose Effect: </label>
+        <select id="effectSelect" onchange="changeEffect()">
+            <option value="normal">Normal</option>
+            <option value="robot">Robot</option>
+            <option value="highpitch">High Pitch</option>
+            <option value="lowpitch">Low Pitch</option>
+        </select>
+    </div>
+    <div id="endModal">
+        <div>
+            <h2>Câu chuyện đã kết thúc</h2>
+            <p id="modalMessage"></p>
+            <button onclick="replayStory()">Nghe lại</button>
+            <button id="nextStoryBtn" onclick="nextStory()">Nghe bài tiếp theo</button>
+            <button onclick="closeModal()">Đóng</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="./script.js"></script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93614064e8fbbcce',t:'MTc0NTYxOTg3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>

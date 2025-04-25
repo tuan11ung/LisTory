@@ -1,0 +1,121 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+.story-box {
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 60%;
+    font-size: 18px;
+    margin: 20px auto;
+    height: 350px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.highlight {
+    font-weight: bold;
+    color: #2c3e50;
+    background-color: #e8f4f8;
+    padding: 5px;
+}
+.translation {
+    font-style: italic;
+    color: #7f8c8d;
+    margin-top: 5px;
+    font-size: 16px;
+}
+.translation.hidden {
+    visibility: hidden;
+}
+.controls {
+    margin-top: 20px;
+}
+button, select, input[type="checkbox"] {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    transition: background-color 0.3s;
+}
+button:hover, select:hover, input[type="checkbox"]:hover {
+    background-color: #2980b9;
+}
+.progress-bar {
+    width: 60%;
+    margin: 10px auto;
+    height: 10px;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.progress {
+    height: 100%;
+    background-color: #2ecc71;
+    width: 0;
+    transition: width 0.3s;
+}
+.noise-toggle {
+    background-color: #e74c3c;
+}
+.noise-toggle:hover {
+    background-color: #c0392b;
+}
+.slider-container {
+    margin: 10px auto;
+    width: 60%;
+    text-align: left;
+}
+.slider-container label {
+    display: inline-block;
+    width: 100px;
+    font-size: 16px;
+}
+input[type="range"] {
+    width: 200px;
+    vertical-align: middle;
+}
+.slider-value {
+    display: inline-block;
+    width: 50px;
+    font-size: 16px;
+}
+#endModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+#endModal div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+#endModal button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+}
+#endModal button:hover {
+    background-color: #2980b9;
+}
