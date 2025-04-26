@@ -38,18 +38,18 @@ let stories = [
     ]
 ];
 
-let currentStoryIndex = 0;
-let currentSentence = 0;
-let speed = 1.0;
-let volume = 1.0;
-let noiseLevel = 0.3;
-let isPlaying = false;
-let isNoiseEnabled = false;
+let currentStoryIndex = 0;  //câu chuyện hiện tại
+let currentSentence = 0;    //câu hiện tại đang được đọc
+let speed = 1.0;            //tốc độ phát
+let volume = 1.0;           //âm lượng phát
+let noiseLevel = 0.3;       //mức độ tiếng ồn (0.0 - 1.0)
+let isPlaying = false;      //trạng thái phát
+let isNoiseEnabled = false; //trạng thái tiếng ồn
 let synth = window.speechSynthesis;
 let utterance = null;
 let voices = [];
-let selectedVoice = null;
-let currentEffect = 'normal';
+let selectedVoice = null; 
+let currentEffect = 'normal'; //hiệu ứng hiện tại
 
 const noiseFiles = {
     'coffee_shop': './src/coffee-shop-noise.mp3',
