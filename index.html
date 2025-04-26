@@ -5,38 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LisTory</title>
     <link rel="stylesheet" href="./style.css">
-    <script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-    </script>
+    <script type="text/javascript" src = "./text.js"></script>
 </head>
 <body>
     <h1>LisTory English Listening Practice Website</h1>
@@ -68,8 +37,6 @@
         <label for="noiseLevelSlider">Noise Level: </label>
         <input type="range" id="noiseLevelSlider" min="0.0" max="1.0" step="0.1" value="0.3" oninput="changeNoiseLevel(this.value)">
         <span class="slider-value" id="noiseLevelValue">30%</span>
-    </div>
-    <div class="slider-container">
         <label for="showTranslation">Show Translation: </label>
         <input type="checkbox" id="showTranslation" checked onchange="toggleTranslation()">
     </div>
@@ -82,9 +49,7 @@
         <select id="noiseSelect" onchange="changeNoise()">
             <option value="coffee_shop">Coffee Shop</option>
             <option value="traffic">Traffic</option>
-            <option value="ambient">Environment</option>
             <option value="office">Office</option>
-            <option value="white-noise">White Noise</option>
         </select>
         <label for="effectSelect">Choose Effect: </label>
         <select id="effectSelect" onchange="changeEffect()">
@@ -94,6 +59,7 @@
             <option value="lowpitch">Low Pitch</option>
         </select>
     </div>
+
     <div id="endModal">
         <div>
             <h2>Câu chuyện đã kết thúc</h2>
